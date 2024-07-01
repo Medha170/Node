@@ -80,8 +80,17 @@ const server = http.createServer((req, res) => {
   res.setHeader("Content-Type", "text/html");
   
   if (req.url === "/login") {
-    res.write("Hello, Login!");
-    res.end();
+    const filePath = path.join(__dirname, "login.html");
+    readFile(filePath, (err, data) => {
+      if (err) {
+        res.statusCode = 500;
+        res.write("Internal Server Error");
+      } else {
+        res.write(data);
+      }
+      res.end();
+    });
+    // res.end();
   } else {
     const filePath = path.join(__dirname, "index.html");
     readFile(filePath, (err, data) => {
