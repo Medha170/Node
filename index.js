@@ -61,17 +61,39 @@
 // fs.unlinkSync('new-file.txt');
 
 const http = require("http");
+const fs = require("fs");
+const path = require("path");
+
+// Function to read the index.html file
+const readFile = (filePath, callback) => {
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      console.error(`Error reading file ${filePath}:`, err);
+      callback(err);
+    } else {
+      callback(null, data);
+    }
+  });
+};
 
 const server = http.createServer((req, res) => {
   res.setHeader("Content-Type", "text/html");
   
   if (req.url === "/login") {
-    res.write("<html> <head> <title> node js class </title> </head> <body> <h1> Hello, login! </h1> </body> </html>");
+    res.write("Hello, Login!");
+    res.end();
   } else {
-    res.write("<html> <head> <title> node js class </title> </head> <body> <h1> Hello, World! </h1> </body> </html>");
+    const filePath = path.join(__dirname, "index.html");
+    readFile(filePath, (err, data) => {
+      if (err) {
+        res.statusCode = 500;
+        res.write("Internal Server Error");
+      } else {
+        res.write(data);
+      }
+      res.end();
+    });
   }
-  
-  res.end();
 });
 
 const port = 3000;
@@ -80,5 +102,6 @@ const host = "localhost";
 server.listen(port, host, () => {
   console.log(`Server is running on http://${host}:${port}`);
 });
+
 
 
