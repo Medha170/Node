@@ -141,5 +141,24 @@ app.post('/courses', (req, res) =>{
   res.send(courses);
 })
 
+app.put('/courses/:id', (req, res) =>{
+  let course = courses.find((c) => c.id === parseInt(req.params.id));
+  if(!course) {
+    return res.status(404).send("Course not found");
+  }
+  course.name = req.body.name;
+  res.send(course);
+});
+
+app.delete('/courses/:id', (req, res) =>{
+  let course = courses.find((c) => c.id === parseInt(req.params.id));
+  if(!course) {
+    return res.status(404).send("Course not found");
+  }
+  let index = courses.indexOf(course);
+  courses.splice(index, 1);
+  res.send(course);
+});
+
 
 
