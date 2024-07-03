@@ -60,57 +60,74 @@
 
 // fs.unlinkSync('new-file.txt');
 
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
+// const http = require("http");
+// const fs = require("fs");
+// const path = require("path");
 
-// Function to read the index.html file
-const readFile = (filePath, callback) => {
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      console.error(`Error reading file ${filePath}:`, err);
-      callback(err);
-    } else {
-      callback(null, data);
-    }
-  });
-};
+// // Function to read the index.html file
+// const readFile = (filePath, callback) => {
+//   fs.readFile(filePath, (err, data) => {
+//     if (err) {
+//       console.error(`Error reading file ${filePath}:`, err);
+//       callback(err);
+//     } else {
+//       callback(null, data);
+//     }
+//   });
+// };
 
-const server = http.createServer((req, res) => {
-  res.setHeader("Content-Type", "text/html");
+// const server = http.createServer((req, res) => {
+//   res.setHeader("Content-Type", "text/html");
   
-  if (req.url === "/login") {
-    const filePath = path.join(__dirname, "login.html");
-    readFile(filePath, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        res.write("Internal Server Error");
-      } else {
-        res.write(data);
-      }
-      res.end();
-    });
-    // res.end();
-  } else {
-    const filePath = path.join(__dirname, "index.html");
-    readFile(filePath, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        res.write("Internal Server Error");
-      } else {
-        res.write(data);
-      }
-      res.end();
-    });
-  }
+//   if (req.url === "/login") {
+//     const filePath = path.join(__dirname, "login.html");
+//     readFile(filePath, (err, data) => {
+//       if (err) {
+//         res.statusCode = 500;
+//         res.write("Internal Server Error");
+//       } else {
+//         res.write(data);
+//       }
+//       res.end();
+//     });
+//     // res.end();
+//   } else {
+//     const filePath = path.join(__dirname, "index.html");
+//     readFile(filePath, (err, data) => {
+//       if (err) {
+//         res.statusCode = 500;
+//         res.write("Internal Server Error");
+//       } else {
+//         res.write(data);
+//       }
+//       res.end();
+//     });
+//   }
+// });
+
+// const port = 3000;
+// const host = "localhost";
+
+// server.listen(port, host, () => {
+//   console.log(`Server is running on http://${host}:${port}`);
+// });
+
+const express = require('express')
+const app = express();
+
+let courses = [
+  {id : 1, name: "java"},
+  {id : 2, name: "javascript"},
+  {id : 3, name: "python"}
+]
+
+app.get('/courses', (req, res) =>{
+  res.json(courses);
 });
 
-const port = 3000;
-const host = "localhost";
-
-server.listen(port, host, () => {
-  console.log(`Server is running on http://${host}:${port}`);
-});
+app.listen(3000, () => {
+  console.log("server started");
+})
 
 
 
