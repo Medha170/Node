@@ -116,6 +116,7 @@ const express = require('express')
 const app = express();
 
 app.use(express.json());  //middleware
+app.use(middleware);
 
 let courses = [
   {id : 1, name: "java"},
@@ -159,6 +160,17 @@ app.delete('/courses/:id', (req, res) =>{
   courses.splice(index, 1);
   res.send(course);
 });
+
+function middleware(req, res, next){
+  console.log("called");
+  console.log(req.method);
+  console.log(req.ip);
+  console.log(req.hostname);
+  console.log(new Date());
+  next();
+}
+
+
 
 
 
